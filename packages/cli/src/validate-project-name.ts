@@ -5,10 +5,7 @@ export function getProjectNameError(name: string): string | null {
   const { validForNewPackages, errors, warnings } = validate(name);
 
   if (!validForNewPackages) {
-    const allIssues = [
-      ...(errors ?? []),
-      ...(warnings ?? []),
-    ];
+    const allIssues = [...(errors ?? []), ...(warnings ?? [])];
     // Return the first issue as a concise prompt-friendly string
     return allIssues[0] ?? "Invalid package name.";
   }
@@ -16,30 +13,17 @@ export function getProjectNameError(name: string): string | null {
   return null;
 }
 
-
 export function validateProjectName(name: string): void {
   const { validForNewPackages, errors, warnings } = validate(name);
 
   if (!validForNewPackages) {
-    console.error(
-      chalk.red(`\n✖  Invalid project name: `) + chalk.bold.red(`"${name}"`)
-    );
+    console.error(chalk.red(`\n✖  Invalid project name: `) + chalk.bold.red(`"${name}"`));
 
-    errors?.forEach((err) =>
-      console.error(chalk.red(`   • ${err}`))
-    );
-    warnings?.forEach((warn) =>
-      console.warn(chalk.yellow(`   ⚠  ${warn}`))
-    );
+    errors?.forEach((err) => console.error(chalk.red(`   • ${err}`)));
+    warnings?.forEach((warn) => console.warn(chalk.yellow(`   ⚠  ${warn}`)));
 
-    console.error(
-      chalk.gray(`\n   Tip: use only lowercase letters, numbers, and hyphens.`)
-    );
-    console.error(
-      chalk.gray(`   Example: `) +
-        chalk.cyan(`npx zerithdb init my-cool-app`) +
-        `\n`
-    );
+    console.error(chalk.gray(`\n   Tip: use only lowercase letters, numbers, and hyphens.`));
+    console.error(chalk.gray(`   Example: `) + chalk.cyan(`npx zerithdb init my-cool-app`) + `\n`);
 
     process.exit(1);
   }
